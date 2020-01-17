@@ -3,10 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Card, Input, Button } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-// import sgMail from '@sendgrid/mail';
 import { sendGridEmail } from 'react-native-sendgrid'
+import { SENDGRID_API_KEY } from 'react-native-dotenv';
 
-const apiKey = "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";
+//send grid
+const apiKey = SENDGRID_API_KEY;
 
 class QRScanned extends React.Component {
 
@@ -23,7 +24,7 @@ class QRScanned extends React.Component {
         // alert(JSON.stringify(values));
         sendGridEmail(apiKey, values.email, "info@eizaburo.com", "From QR Data Transfer", values.qrData)
             .then(res => {
-                alert("送信しました。");
+                alert("メールを送信しました。");
             })
             .catch(e => {
                 alert("送信に失敗しました。");
