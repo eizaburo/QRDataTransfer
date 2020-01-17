@@ -49,7 +49,9 @@ class QRScan extends React.Component {
 
                 {/* 外枠描画 */}
                 <View style={{ flex: 1, width: "100%", backgroundColor: "#000", opacity: 0.5, justifyContent: "center", alignItems: "center" }}>
-                    <Text style={{ color: "#fff", fontSize: 18 }}>QRを読取って下さい</Text>
+                    <Text style={{ color: "#fff", fontSize: 18 }}
+                        onPress={() => this.props.navigation.navigate("QRScanned", "12345")}
+                    >QRを読取って下さい</Text>
                 </View>
                 <View style={{ flex: 1.5, width: "100%", flexDirection: "row" }}>
                     <View style={{ flex: 1, backgroundColor: "#000", opacity: 0.5 }}></View>
@@ -77,10 +79,10 @@ class QRScan extends React.Component {
                         title: "転送画面へ",
                         onPress: () => {
                             this.setState({
-                                scanned: false,
+                                scanned: true,
                                 confirmVisible: false,
                             });
-                            this.props.navigation.navigate("QRScanned")
+                            this.props.navigation.navigate("QRScanned", this.state.qrData)
                         }
                     }}
                     negativeButton={{
