@@ -4,12 +4,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Button } from 'react-native-elements';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 class QRScan extends React.Component {
 
     state = {
         hasCameraPermission: null,
         scanned: false,
+        qrData: null,
+        confirmVisible: false,
     }
 
     getPermission = async () => {
@@ -35,6 +38,7 @@ class QRScan extends React.Component {
 
         return (
             <View style={{ flex: 1 }}>
+
                 {/* 139%はAndroidにおけるレイアウトズレのためのハック */}
                 <BarCodeScanner
                     style={[StyleSheet.absoluteFillObject, { height: "139%" }]}
@@ -63,13 +67,43 @@ class QRScan extends React.Component {
                     />
                 </View>
 
+                {/* dialogs */}
+                <ConfirmDialog
+                    title="QRを読取りました"
+                    message={this.state.qrData}
+                    visible={this.state.confirmVisible}
+                    onTouchOutside={() => this.setState({ confirmVisible: false })}
+                    positiveButton={{
+                        title: "転送画面へ",
+                        onPress: () => {
+                            this.setState({
+                                scanned: false,
+                                confirmVisible: false,
+                            });
+                            this.props.navigation.navigate("QRScanned")
+                        }
+                    }}
+                    negativeButton={{
+                        title: "再度読み取る",
+                        onPress: () => {
+                            this.setState({
+                                scanned: false,
+                                confirmVisible: false,
+                            });
+                        }
+                    }}
+                />
+
             </View>
         );
     }
 
     handleBarcodeScanned = ({ type, data }) => {
-        this.setState({ scanned: true });
-        alert(JSON.stringify(data));
+        this.setState({
+            scanned: true,
+            qrData: data,
+            confirmVisible: true,
+        });
     }
 
 }
