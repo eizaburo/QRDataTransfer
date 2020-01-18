@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import { Card, Input, Button } from 'react-native-elements';
+
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
 import { sendGridEmail } from 'react-native-sendgrid'
 import { SENDGRID_API_KEY } from 'react-native-dotenv';
 
@@ -13,6 +15,7 @@ class QRScanned extends React.Component {
 
     state = {
         qrData: '',
+        email: '',
     }
 
     getQRData = () => {
@@ -31,8 +34,14 @@ class QRScanned extends React.Component {
             })
     }
 
+    getEmail = async () => {
+        const email = await AsyncStorage.getItem("email");
+        this.setState({ email: email });
+    }
+
     componentDidMount = () => {
         this.getQRData();
+        this.getEmail();
     }
 
     render() {
@@ -42,7 +51,7 @@ class QRScanned extends React.Component {
                     enableReinitialize
                     initialValues={{
                         qrData: this.state.qrData,
-                        email: 'eizaburo.tamaki@gmail.com'
+                        email: this.state.email,
                     }}
                     onSubmit={(values) => this.sendEmail(values)}
                     validationSchema={Yup.object().shape({
@@ -64,7 +73,7 @@ class QRScanned extends React.Component {
                                 <Input
                                     label="転送先Email"
                                     containerStyle={{ marginTop: 20 }}
-                                    value={values.email}
+                                    value={this.state.email}
                                     editable={false}
                                 />
                                 <Button
@@ -72,6 +81,12 @@ class QRScanned extends React.Component {
                                     containerStyle={{ marginTop: 30 }}
                                     buttonStyle={{ height: 60 }}
                                     onPress={handleSubmit}
+                                />
+                                <Button
+                                    title="設定からメールアドレスを取得"
+                                    containerStyle={{ marginTop: 10 }}
+                                    buttonStyle={{ backgroundColor: "#789" }}
+                                    onPress={this.getEmail}
                                 />
                             </Card>
                         )
