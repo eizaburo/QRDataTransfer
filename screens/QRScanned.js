@@ -8,6 +8,10 @@ import * as Yup from 'yup';
 import { sendGridEmail } from 'react-native-sendgrid'
 import { SENDGRID_API_KEY } from 'react-native-dotenv';
 
+//redux
+import { connect } from 'react-redux';
+import { updateEmail, updateScanned, updateQRData } from '../actions/configAction';
+
 //send grid
 const apiKey = SENDGRID_API_KEY;
 
@@ -24,14 +28,14 @@ class QRScanned extends React.Component {
     }
 
     sendEmail = (values) => {
-        // alert(JSON.stringify(values));
-        sendGridEmail(apiKey, values.email, "info@eizaburo.com", "From QR Data Transfer", values.qrData)
-            .then(res => {
-                alert("メールを送信しました。");
-            })
-            .catch(e => {
-                alert("送信に失敗しました。");
-            })
+        alert(JSON.stringify(values));
+        // sendGridEmail(apiKey, values.email, "info@eizaburo.com", "From QR Data Transfer", values.qrData)
+        //     .then(res => {
+        //         alert("メールを送信しました。");
+        //     })
+        //     .catch(e => {
+        //         alert("送信に失敗しました。");
+        //     })
     }
 
     getEmail = async () => {
@@ -41,7 +45,7 @@ class QRScanned extends React.Component {
 
     componentDidMount = () => {
         this.getQRData();
-        this.getEmail();
+        // this.getEmail();
     }
 
     render() {
@@ -51,7 +55,7 @@ class QRScanned extends React.Component {
                     enableReinitialize
                     initialValues={{
                         qrData: this.state.qrData,
-                        email: this.state.email,
+                        email: this.props.config.email,
                     }}
                     onSubmit={(values) => this.sendEmail(values)}
                     validationSchema={Yup.object().shape({
@@ -73,21 +77,23 @@ class QRScanned extends React.Component {
                                 <Input
                                     label="転送先Email"
                                     containerStyle={{ marginTop: 20 }}
-                                    value={this.state.email}
-                                    editable={false}
+                                    value={values.email}
+                                    onChangeText={handleChange("email")}
+                                    onBlur={handleBlur("email")}
+                                    errorMessage={touched.email && errors.email ? errors.email : null}
                                 />
                                 <Button
                                     title="送信"
-                                    containerStyle={{ marginTop: 30 }}
+                                    containerStyle={{ marginTop: 20 }}
                                     buttonStyle={{ height: 60 }}
                                     onPress={handleSubmit}
                                 />
-                                <Button
+                                {/* <Button
                                     title="設定からメールアドレスを取得"
                                     containerStyle={{ marginTop: 10 }}
                                     buttonStyle={{ backgroundColor: "#789" }}
                                     onPress={this.getEmail}
-                                />
+                                /> */}
                             </Card>
                         )
                     }
@@ -97,4 +103,17 @@ class QRScanned extends React.Component {
     }
 }
 
-export default QRScanned;
+const mapStateToProps = state => (
+    {
+        config: state.config,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        updateEmail: email => dispatch(updateEmail(email)),
+        updateScanned: scanned => dispatch(updateScanned(scanned)),
+    }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(QRScanned);

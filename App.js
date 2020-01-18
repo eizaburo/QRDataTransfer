@@ -17,6 +17,11 @@ import Config from './screens/Config';
 //icons
 import Icon5 from 'react-native-vector-icons/FontAwesome5';
 
+//redux
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import configReducer from './reducers/configReducer';
+
 //HomeStack
 const HomeStack = createStackNavigator(
     {
@@ -69,11 +74,19 @@ const HomeTab = createBottomTabNavigator(
 
 const AppContainer = createAppContainer(HomeTab);
 
+//createStore
+const store = createStore(combineReducers({
+    config: configReducer,
+}), applyMiddleware());
+
+
 //App
 class App extends React.Component {
     render() {
         return (
-            <AppContainer />
+            <Provider store={store}>
+                <AppContainer />
+            </Provider>
         );
     }
 }

@@ -6,6 +6,10 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Button } from 'react-native-elements';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 
+//redux
+import { connect } from 'react-redux';
+import { updateEmail, updateScanned, updateQRData } from '../actions/configAction';
+
 class QRScan extends React.Component {
 
     state = {
@@ -110,4 +114,17 @@ class QRScan extends React.Component {
 
 }
 
-export default QRScan;
+const mapStateToProps = state => (
+    {
+        config: state.config,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        updateEmail: email => dispatch(updateEmail(email)),
+        updateScanned: scanned => dispatch(updateScanned(scanned)),
+    }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(QRScan);
