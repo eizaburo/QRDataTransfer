@@ -12,10 +12,22 @@ import { SENDGRID_API_KEY } from 'react-native-dotenv';
 import { connect } from 'react-redux';
 import { updateEmail, updateScanned, updateQRData } from '../actions/configAction';
 
+//icon
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
+
 //send grid
 const apiKey = SENDGRID_API_KEY;
 
 class QRScanned extends React.Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        title: "読取り結果",
+        headerLeft: () => (<Icon name="chevron-left" size={24} onPress={() => {
+            navigation.state.params.updateScanned(false);
+            navigation.goBack();
+        }} style={{ marginLeft: 10 }} />)
+    });
 
     state = {
         qrData: '',
@@ -47,6 +59,10 @@ class QRScanned extends React.Component {
         this.getQRData();
         // this.getEmail();
         // this.props.updateScanned(false);
+        this.props.navigation.setParams({
+            updateScanned: this.props.updateScanned,
+        });
+
     }
 
     render() {

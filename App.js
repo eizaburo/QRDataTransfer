@@ -36,6 +36,9 @@ const HomeStack = createStackNavigator(
         },
         QRScanned: {
             screen: QRScanned,
+            // navigationOptions: ({ navigation }) => ({
+            //     title: 'foo',
+            // })
         }
     }
 );
