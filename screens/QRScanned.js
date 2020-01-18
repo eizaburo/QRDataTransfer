@@ -46,6 +46,7 @@ class QRScanned extends React.Component {
     componentDidMount = () => {
         this.getQRData();
         // this.getEmail();
+        this.props.updateScanned(false);
     }
 
     render() {

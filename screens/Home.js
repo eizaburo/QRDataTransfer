@@ -27,7 +27,10 @@ class Home extends React.Component {
                     title="QRコードを読み取る"
                     containerStyle={{ marginTop: 10, alignSelf: "center" }}
                     buttonStyle={{ height: 60, width: 240, marginTop: 20 }}
-                    onPress={() => this.props.navigation.navigate("QRScan")}
+                    onPress={() => {
+                        this.props.updateScanned(false);
+                        this.props.navigation.navigate("QRScan");
+                    }}
                 />
             </View>
         );

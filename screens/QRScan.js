@@ -14,8 +14,6 @@ class QRScan extends React.Component {
 
     state = {
         hasCameraPermission: null,
-        scanned: false,
-        qrData: null,
         confirmVisible: false,
     }
 
@@ -46,7 +44,7 @@ class QRScan extends React.Component {
                 {/* 139%はAndroidにおけるレイアウトズレのためのハック */}
                 <BarCodeScanner
                     style={[StyleSheet.absoluteFillObject, { height: "139%" }]}
-                    onBarCodeScanned={this.state.scanned ? undefined : this.handleBarcodeScanned}
+                    onBarCodeScanned={this.props.config.scanned ? undefined : this.handleBarcodeScanned}
                 >
 
                 </BarCodeScanner>
@@ -76,26 +74,27 @@ class QRScan extends React.Component {
                 {/* dialogs */}
                 <ConfirmDialog
                     title="QRを読取りました"
-                    message={this.state.qrData}
+                    message={this.props.config.qrdata}
                     visible={this.state.confirmVisible}
                     onTouchOutside={() => this.setState({ confirmVisible: false })}
                     positiveButton={{
                         title: "転送画面へ",
                         onPress: () => {
                             this.setState({
-                                scanned: true,
                                 confirmVisible: false,
                             });
-                            this.props.navigation.navigate("QRScanned", this.state.qrData)
+                            this.props.updateScanned(true);
+                            this.props.navigation.navigate("QRScanned", this.props.config.qrdata)
+
                         }
                     }}
                     negativeButton={{
                         title: "再度読み取る",
                         onPress: () => {
                             this.setState({
-                                scanned: false,
                                 confirmVisible: false,
                             });
+                            this.props.updateScanned(false);
                         }
                     }}
                 />
@@ -104,12 +103,17 @@ class QRScan extends React.Component {
         );
     }
 
-    handleBarcodeScanned = ({ type, data }) => {
-        this.setState({
-            scanned: true,
-            qrData: data,
+    handleBarcodeScanned = async ({ type, data }) => {
+
+        //set store
+        await this.props.updateScanned(true);
+        await this.props.updateQRData(data);
+
+        //confirm on
+        await this.setState({
             confirmVisible: true,
         });
+
     }
 
 }
@@ -124,6 +128,7 @@ const mapDispatchToProps = dispatch => (
     {
         updateEmail: email => dispatch(updateEmail(email)),
         updateScanned: scanned => dispatch(updateScanned(scanned)),
+        updateQRData: qrdata => dispatch(updateQRData(qrdata)),
     }
 );
 
