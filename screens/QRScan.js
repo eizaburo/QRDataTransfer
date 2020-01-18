@@ -79,12 +79,13 @@ class QRScan extends React.Component {
                     onTouchOutside={() => this.setState({ confirmVisible: false })}
                     positiveButton={{
                         title: "転送画面へ",
-                        onPress: () => {
+                        onPress: async () => {
+
                             this.setState({
                                 confirmVisible: false,
                             });
-                            this.props.updateScanned(true);
-                            this.props.navigation.navigate("QRScanned", this.props.config.qrdata)
+
+                            await this.props.navigation.navigate("QRScanned", this.props.config.qrdata)
 
                         }
                     }}
@@ -104,6 +105,8 @@ class QRScan extends React.Component {
     }
 
     handleBarcodeScanned = async ({ type, data }) => {
+
+        console.log("read!!");
 
         //set store
         await this.props.updateScanned(true);

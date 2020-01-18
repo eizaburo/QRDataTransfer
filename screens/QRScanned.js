@@ -46,7 +46,7 @@ class QRScanned extends React.Component {
     componentDidMount = () => {
         this.getQRData();
         // this.getEmail();
-        this.props.updateScanned(false);
+        // this.props.updateScanned(false);
     }
 
     render() {
@@ -89,12 +89,15 @@ class QRScanned extends React.Component {
                                     buttonStyle={{ height: 60 }}
                                     onPress={handleSubmit}
                                 />
-                                {/* <Button
-                                    title="設定からメールアドレスを取得"
+                                <Button
+                                    title="QR読取りに戻る"
                                     containerStyle={{ marginTop: 10 }}
                                     buttonStyle={{ backgroundColor: "#789" }}
-                                    onPress={this.getEmail}
-                                /> */}
+                                    onPress={() => {
+                                        this.props.updateScanned(false);
+                                        this.props.navigation.navigate("QRScan");
+                                    }}
+                                />
                             </Card>
                         )
                     }
