@@ -40,14 +40,14 @@ class QRScanned extends React.Component {
     }
 
     sendEmail = (values) => {
-        alert(JSON.stringify(values));
-        // sendGridEmail(apiKey, values.email, "info@eizaburo.com", "From QR Data Transfer", values.qrData)
-        //     .then(res => {
-        //         alert("メールを送信しました。");
-        //     })
-        //     .catch(e => {
-        //         alert("送信に失敗しました。");
-        //     })
+        // alert(JSON.stringify(values));
+        sendGridEmail(apiKey, values.email, "info@eizaburo.com", "From QR Data Transfer", values.qrData)
+            .then(res => {
+                alert("メールを送信しました。");
+            })
+            .catch(e => {
+                alert("送信に失敗しました。");
+            })
     }
 
     getEmail = async () => {
