@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.eizaburo.QRDataTransfer"
+    },
+    "android": {
+      "package": "com.eizaburo.QRDataTransfe"
     }
   }
 }
