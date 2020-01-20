@@ -94,6 +94,7 @@ class QRScanned extends React.Component {
                                 <Input
                                     label="転送先Email"
                                     containerStyle={{ marginTop: 20 }}
+                                    autoCapitalize="none"
                                     value={values.email}
                                     onChangeText={handleChange("email")}
                                     onBlur={handleBlur("email")}
