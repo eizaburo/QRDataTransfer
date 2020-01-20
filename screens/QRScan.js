@@ -106,8 +106,6 @@ class QRScan extends React.Component {
 
     handleBarcodeScanned = async ({ type, data }) => {
 
-        console.log("read!!");
-
         //set store
         await this.props.updateScanned(true);
         await this.props.updateQRData(data);
