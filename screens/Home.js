@@ -32,6 +32,7 @@ class Home extends React.Component {
                         this.props.navigation.navigate("QRScan");
                     }}
                 />
+                <Text style={{ margin: 40, fontSize: 14 }}>このアプリはQRにエンコードされいるデータをスキャンし、指定したEmailアドレスに送る機能を提供します。</Text>
             </View>
         );
     }
