@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -39,36 +39,32 @@ class QRScan extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: "#000" }}>
 
                 {/* 139%はAndroidにおけるレイアウトズレのためのハック */}
                 <BarCodeScanner
-                    style={[StyleSheet.absoluteFillObject, { height: "139%" }]}
+                    // style={[StyleSheet.absoluteFillObject, { height: "139%" }]}
+                    style={[StyleSheet.absoluteFillObject]}
                     onBarCodeScanned={this.props.config.scanned ? undefined : this.handleBarcodeScanned}
                 >
 
                 </BarCodeScanner>
 
-                {/* 外枠描画 */}
-                <View style={{ flex: 1, width: "100%", backgroundColor: "#000", opacity: 0.5, justifyContent: "center", alignItems: "center" }}>
-                    <Text style={{ color: "#fff", fontSize: 18 }}
-                        onPress={() => this.props.navigation.navigate("QRScanned", "12345")}
-                    >QRを読取って下さい</Text>
-                </View>
-                <View style={{ flex: 1.5, width: "100%", flexDirection: "row" }}>
-                    <View style={{ flex: 1, backgroundColor: "#000", opacity: 0.5 }}></View>
-                    <View style={{ flex: 4 }}></View>
-                    <View style={{ flex: 1, backgroundColor: "#000", opacity: 0.5 }}></View>
-                </View>
-                <View style={{ flex: 1, width: "100%", backgroundColor: "#000", opacity: 0.5, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                    <Button
-                        title="キャンセル"
-                        containerStyle={{ width: 240 }}
-                        buttonStyle={{ height: 50, borderColor: "#fff", borderWidth: 1.2 }}
-                        type="outline"
-                        titleStyle={{ color: "#fff" }}
-                        onPress={() => this.props.navigation.navigate("Home")}
+                {/* ガイド描画 */}
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", opacity: 0.7 }}>
+                    <Text style={{ marginBottom: 40, fontSize: 18, color: "#fff" }}>QRを読取って下さい</Text>
+                    <Image
+                        source={require('../assets/waku.png')}
+                        style={{ width: 200, height: 200 }}
                     />
+                    <View>
+                        <Button
+                            title="キャンセル"
+                            containerStyle={{ marginTop: 40 }}
+                            buttonStyle={{ width: 200, height: 50 }}
+                            onPress={() => this.props.navigation.navigate("Home")}
+                        />
+                    </View>
                 </View>
 
                 {/* dialogs */}
