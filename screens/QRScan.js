@@ -52,7 +52,7 @@ class QRScan extends React.Component {
 
                 {/* ガイド描画 */}
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", opacity: 0.7 }}>
-                    <Text style={{ marginBottom: 40, fontSize: 18, color: "#fff" }}>QRを読取って下さい</Text>
+                    <Text style={{ marginBottom: 30, fontSize: 18, color: "#fff" }}>QRを読取って下さい</Text>
                     <Image
                         source={require('../assets/waku.png')}
                         style={{ width: 200, height: 200 }}
