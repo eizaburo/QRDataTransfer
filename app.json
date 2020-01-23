@@ -25,7 +25,15 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.eizaburo.QRDataTransfer"
+      "bundleIdentifier": "com.eizaburo.QRDataTransfer",
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "ja_JP",
+        "NSCameraUsageDescription": "QRコードを撮影するためにカメラを利用します。",
+        "NSPhotoLibraryUsageDescription": "プロファイル画像をアップロードするためにフォトライブラリを使用します。",
+        "NSLocationAlwaysUsageDescription": "アプリの利用位置を特定するために位置情報を利用します。",
+        "NSLocationUsageDescription": "アプリの利用位置を特定するために位置情報を利用します。",
+        "NSLocationWhenInUseUsageDescription": "アプリの利用位置を特定するために位置情報を利用します。"
+      }
     },
     "android": {
       "package": "com.eizaburo.QRDataTransfe"
